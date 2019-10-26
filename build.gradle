@@ -36,11 +36,11 @@ buildscript {
         materialVersion = '1.1.0-beta01'
         navigationVersion = '2.1.0'
         testExtJunit = '1.1.0'
+        appIntro = '5.1.0'
     }
     repositories {
         google()
         jcenter()
-        
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradleVersion"
@@ -55,7 +55,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven { url 'https://jitpack.io' }
     }
 }
 

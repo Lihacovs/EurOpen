@@ -80,4 +80,22 @@
         \n\n\tThese Terms are an agreement between you and &appname;.
         \n
     </string>
+
+    <!--res.layout.intro_layout-->
+    <string name="intro_layout_one_image">Welcoming girls image</string>
+    <string name="intro_layout_one_title">EuropeWelcome</string>
+    <string name="intro_layout_one_text">EuropeWelcome is the first application to support people in asylum seeking and relocation to European Union</string>
+    <string name="intro_layout_two_image">Happy african image</string>
+    <string name="intro_layout_two_title">Strong Society</string>
+    <string name="intro_layout_two_text">Become a member of helpful community, where people assist each other</string>
+    <string name="intro_layout_three_image">Man with kid image</string>
+    <string name="intro_layout_three_title">Children\'s rights</string>
+    <string name="intro_layout_three_text">We are in hope of better future for the kids, their education and well-being</string>
+    <string name="intro_layout_four_image">Soccer team image</string>
+    <string name="intro_layout_four_title">Learn Europe</string>
+    <string name="intro_layout_four_text">Learn about the life in Europe, it\'s countries, culture, people and official institutions</string>
+    <string name="intro_layout_five_image">Nigerian girls image</string>
+    <string name="intro_layout_five_title">Equality and Freedom</string>
+    <string name="intro_layout_five_text">Europe is open to everybody, no matter of religion, color or sex</string>
+
 </resources>
