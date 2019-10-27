@@ -15,11 +15,15 @@
 
 package eu.balticit.europen.ui.intro
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro2
+import eu.balticit.europen.MainActivity
 import eu.balticit.europen.R
 import eu.balticit.europen.data.prefs.AppSharedPrefs
+import java.lang.Exception
 
 
 class IntroActivity : AppIntro2() {
@@ -30,13 +34,20 @@ class IntroActivity : AppIntro2() {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
+        if (supportActionBar != null) supportActionBar!!.hide()
+
         mPrefs = AppSharedPrefs.getInstance(this)
-        mPrefs.countInstances(this)
-        if (mPrefs.isAppIntroWatched()) {
-            finish()
+
+        try {
+            if (mPrefs.isAppIntroWatched()) {
+                val intent = Intent(this, MainActivity::class.java)
+                startService(intent)
+                this.finish()
+            }
+        }catch (e:Exception){
+            Log.e("WindowManagerBad ", e.toString());
         }
 
-        if (supportActionBar != null) supportActionBar!!.hide()
 
         // Note here that we DO NOT use setContentView();
 
@@ -70,6 +81,8 @@ class IntroActivity : AppIntro2() {
         super.onDonePressed(currentFragment)
         // Do something when users tap on Done button.
         mPrefs.watchAppIntro(true)
-        finish()
+        val intent = Intent(this, MainActivity::class.java)
+        startService(intent)
+        this.finish()
     }
 }

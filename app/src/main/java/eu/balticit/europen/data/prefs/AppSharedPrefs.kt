@@ -24,12 +24,6 @@ import android.widget.Toast
  */
 class AppSharedPrefs {
 
-    var counter: Int = 0
-
-    constructor(){
-        counter++
-    }
-
     companion object {
         private const val PREF_KEY_INTRO_WATCHED = "PREF_KEY_INTRO_WATCHED"
         private const val prefFileName = "europen_shared_prefs"
@@ -40,10 +34,6 @@ class AppSharedPrefs {
             mPrefs = context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE)
             return instance
         }
-    }
-
-    fun countInstances(context: Context) {
-        Toast.makeText(context, "SharedPrefs instance count: " + counter, Toast.LENGTH_SHORT).show()
     }
 
     /**
