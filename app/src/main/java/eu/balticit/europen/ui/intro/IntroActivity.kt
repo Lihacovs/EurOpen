@@ -19,13 +19,22 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro2
 import eu.balticit.europen.R
+import eu.balticit.europen.data.prefs.AppSharedPrefs
 
 
 class IntroActivity : AppIntro2() {
 
+     private lateinit var mPrefs: AppSharedPrefs
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
+
+        mPrefs = AppSharedPrefs.getInstance(this)
+        mPrefs.countInstances(this)
+        if (mPrefs.isAppIntroWatched()) {
+            finish()
+        }
 
         if (supportActionBar != null) supportActionBar!!.hide()
 
@@ -57,10 +66,10 @@ class IntroActivity : AppIntro2() {
         // Do something when users tap on Skip button.
     }
 
-     override fun onDonePressed(currentFragment: Fragment) {
+    override fun onDonePressed(currentFragment: Fragment) {
         super.onDonePressed(currentFragment)
         // Do something when users tap on Done button.
-
+        mPrefs.watchAppIntro(true)
         finish()
     }
 }
