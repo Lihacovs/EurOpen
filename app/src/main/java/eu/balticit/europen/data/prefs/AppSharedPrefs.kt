@@ -30,8 +30,8 @@ class AppSharedPrefs {
         private lateinit var mPrefs: SharedPreferences
         private val instance: AppSharedPrefs = AppSharedPrefs()
 
-        fun getInstance(context: Context): AppSharedPrefs {
-            mPrefs = context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE)
+        fun getInstance(context: Context?): AppSharedPrefs {
+            mPrefs = context!!.getSharedPreferences(prefFileName, Context.MODE_PRIVATE)
             return instance
         }
     }

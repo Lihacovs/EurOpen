@@ -28,7 +28,7 @@ import java.lang.Exception
 
 class IntroActivity : AppIntro2() {
 
-     private lateinit var mPrefs: AppSharedPrefs
+    private lateinit var mPrefs: AppSharedPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -38,51 +38,46 @@ class IntroActivity : AppIntro2() {
 
         mPrefs = AppSharedPrefs.getInstance(this)
 
-        try {
-            if (mPrefs.isAppIntroWatched()) {
-                val intent = Intent(this, MainActivity::class.java)
-                startService(intent)
-                this.finish()
-            }
-        }catch (e:Exception){
-            Log.e("WindowManagerBad ", e.toString());
+        if (mPrefs.isAppIntroWatched()) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            this.finish()
         }
 
+            // Note here that we DO NOT use setContentView();
 
-        // Note here that we DO NOT use setContentView();
-
-        // Add your slide fragments here.
-        // AppIntro will automatically generate the dots indicator and buttons.
-        addSlide(SlideFragment.newInstance(R.layout.intro_layout_one))
-        addSlide(SlideFragment.newInstance(R.layout.intro_layout_two))
-        addSlide(SlideFragment.newInstance(R.layout.intro_layout_three))
-        addSlide(SlideFragment.newInstance(R.layout.intro_layout_four))
-        addSlide(SlideFragment.newInstance(R.layout.intro_layout_five))
+            // Add your slide fragments here.
+            // AppIntro will automatically generate the dots indicator and buttons.
+            addSlide(SlideFragment.newInstance(R.layout.intro_layout_one))
+            addSlide(SlideFragment.newInstance(R.layout.intro_layout_two))
+            addSlide(SlideFragment.newInstance(R.layout.intro_layout_three))
+            addSlide(SlideFragment.newInstance(R.layout.intro_layout_four))
+            addSlide(SlideFragment.newInstance(R.layout.intro_layout_five))
 
 
-        // OPTIONAL METHODS
-        // Override bar/separator color.
-        //setBarColor(Color.parseColor("#3F51B5"));
-        //setSeparatorColor(Color.parseColor("#2196F3"));
+            // OPTIONAL METHODS
+            // Override bar/separator color.
+            //setBarColor(Color.parseColor("#3F51B5"));
+            //setSeparatorColor(Color.parseColor("#2196F3"));
 
-        // Hide Skip/Done button.
-        showStatusBar(false)
-        showSkipButton(false)
-        isProgressButtonEnabled = true
-        setZoomAnimation()
+            // Hide Skip/Done button.
+            showStatusBar(false)
+            showSkipButton(false)
+            isProgressButtonEnabled = true
+            setZoomAnimation()
+        }
+
+        override fun onSkipPressed(currentFragment: Fragment) {
+            super.onSkipPressed(currentFragment)
+            // Do something when users tap on Skip button.
+        }
+
+        override fun onDonePressed(currentFragment: Fragment) {
+            super.onDonePressed(currentFragment)
+            // Do something when users tap on Done button.
+            mPrefs.watchAppIntro(true)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            this.finish()
+        }
     }
-
-    override fun onSkipPressed(currentFragment: Fragment) {
-        super.onSkipPressed(currentFragment)
-        // Do something when users tap on Skip button.
-    }
-
-    override fun onDonePressed(currentFragment: Fragment) {
-        super.onDonePressed(currentFragment)
-        // Do something when users tap on Done button.
-        mPrefs.watchAppIntro(true)
-        val intent = Intent(this, MainActivity::class.java)
-        startService(intent)
-        this.finish()
-    }
-}

@@ -15,21 +15,41 @@
 
 package eu.balticit.europen.ui.about
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import eu.balticit.europen.R
+import eu.balticit.europen.data.prefs.AppSharedPrefs
+import eu.balticit.europen.ui.intro.IntroActivity
 
 class AboutFragment : Fragment() {
+
+    private lateinit var mPrefs: AppSharedPrefs
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_about, container, false)
-        return root
+
+        mPrefs = AppSharedPrefs.getInstance(activity)
+
+        return inflater.inflate(R.layout.fragment_about, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val watchIntro: ImageView = view.findViewById(R.id.iv_about_link_functions)
+        watchIntro.setOnClickListener { v ->
+            mPrefs.watchAppIntro(false)
+            val intent = Intent(activity, IntroActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
