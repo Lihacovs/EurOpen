@@ -98,4 +98,8 @@
     <string name="intro_layout_five_title">Equality and Freedom</string>
     <string name="intro_layout_five_text">Europe is open to everybody, no matter of religion, color or sex</string>
 
+    <!--play store-->
+    <string name="app_google_play_store_link">"https://play.google.com/store/apps/details?id="</string>
+    <string name="app_market_link">"market://details?id="</string>
+
 </resources>
