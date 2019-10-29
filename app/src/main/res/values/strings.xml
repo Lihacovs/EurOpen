@@ -102,4 +102,14 @@
     <string name="app_google_play_store_link">"https://play.google.com/store/apps/details?id="</string>
     <string name="app_market_link">"market://details?id="</string>
 
+    <!--res.layout.dialog_rate_us-->
+    <string name="rating_rate_us">Rate Us</string>
+    <string name="rating_message">Please let us know, how can we improve ourselves?</string>
+    <string name="rating_play_store_redirect_message_line_1">Awesome! Thank you for the 5 stars</string>
+    <string name="rating_play_store_redirect_message_line_2">Please help others to know about this app</string>
+    <string name="rating_play_store_text">Rate us on Play Store</string>
+    <string name="rating_type_suggestion">Type suggestion here</string>
+    <string name="rating_later">Later</string>
+    <string name="rating_submit">Submit</string>
+
 </resources>

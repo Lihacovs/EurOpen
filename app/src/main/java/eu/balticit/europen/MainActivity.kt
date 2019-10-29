@@ -28,6 +28,9 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
+import androidx.core.view.GravityCompat
+import eu.balticit.europen.ui.rate.RateUsDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send,
+                R.id.nav_tools, R.id.nav_share, R.id.nav_rate,
                 R.id.nav_about
             ), drawerLayout
         )
