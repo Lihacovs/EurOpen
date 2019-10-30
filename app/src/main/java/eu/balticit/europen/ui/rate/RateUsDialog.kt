@@ -15,14 +15,19 @@
 
 package eu.balticit.europen.ui.rate
 
+import android.app.Dialog
+import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
 import android.widget.RatingBar
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -35,6 +40,7 @@ class RateUsDialog : DialogFragment() {
     private lateinit var mPlayStoreRatingView: View
     private lateinit var mRatingBar: RatingBar
     private lateinit var mSubmitButton: Button
+    private lateinit var mLaterButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,12 +51,35 @@ class RateUsDialog : DialogFragment() {
         return inflater.inflate(R.layout.dialog_rate_us, container, false)
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val root = RelativeLayout(activity)
+        root.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val dialog = Dialog(Objects.requireNonNull(activity))
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(root)
+        if (dialog.window != null) {
+            dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+        dialog.setCanceledOnTouchOutside(false)
+
+        return super.onCreateDialog(savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mRatingMessageView = view.findViewById(R.id.view_rating_message)
         mPlayStoreRatingView = view.findViewById(R.id.view_play_store_rating)
         mRatingBar = view.findViewById(R.id.rating_bar_feedback)
         mSubmitButton = view.findViewById(R.id.btn_submit)
+        mLaterButton = view.findViewById(R.id.btn_later)
         setUp(view)
     }
 
@@ -85,6 +114,10 @@ class RateUsDialog : DialogFragment() {
 
         mSubmitButton.setOnClickListener {
             Toast.makeText(activity, "Rating: " + mRatingBar.rating, Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<Button>(R.id.btn_later).setOnClickListener {
+            dismiss()
         }
     }
 }
