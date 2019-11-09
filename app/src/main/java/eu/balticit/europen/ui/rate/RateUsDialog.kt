@@ -16,6 +16,7 @@
 package eu.balticit.europen.ui.rate
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
@@ -25,11 +26,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import eu.balticit.europen.R
-import kotlinx.coroutines.channels.consumesAll
 import java.util.*
 
 class RateUsDialog : DialogFragment() {
@@ -41,7 +42,7 @@ class RateUsDialog : DialogFragment() {
     private lateinit var mRatingBar: RatingBar
     private lateinit var mSubmitButton: Button
     private lateinit var mLaterButton: Button
-    private lateinit var mRatingMessage: EditText
+    private lateinit var mRatingMessageEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,7 +82,7 @@ class RateUsDialog : DialogFragment() {
         mRatingBar = view.findViewById(R.id.rating_bar_feedback)
         mSubmitButton = view.findViewById(R.id.btn_submit)
         mLaterButton = view.findViewById(R.id.btn_later)
-        mRatingMessage = view.findViewById(R.id.et_message)
+        mRatingMessageEditText = view.findViewById(R.id.et_message)
         setUp(view)
     }
 
@@ -115,12 +116,16 @@ class RateUsDialog : DialogFragment() {
         )
 
         mSubmitButton.setOnClickListener {
-            onSubmitButtonClick(mRatingBar.rating, mRatingMessage.text.toString())
+            onSubmitButtonClick(mRatingBar.rating, mRatingMessageEditText.text.toString())
             //Toast.makeText(activity, "Rating: " + mRatingBar.rating, Toast.LENGTH_SHORT).show()
         }
 
         view.findViewById<Button>(R.id.btn_later).setOnClickListener {
             dismiss()
+        }
+
+        view.findViewById<Button>(R.id.btn_rate_on_play_store).setOnClickListener{
+            Toast.makeText(activity, "Play store rate", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -139,16 +144,19 @@ class RateUsDialog : DialogFragment() {
                 mPlayStoreRatingView.visibility = View.VISIBLE
                 mSubmitButton.visibility = View.GONE
                 mRatingBar.setIsIndicator(true)
-                Toast.makeText(activity, "Rating: " + mRatingBar.rating, Toast.LENGTH_SHORT).show()
             } else {
                 mRatingMessageView.visibility = View.VISIBLE
-                Toast.makeText(activity, "Rating: " + mRatingBar.rating, Toast.LENGTH_SHORT).show()
             }
             isRatingSecondaryActionShown = true
             return
         }
-
-        Toast.makeText(activity, getString(R.string.rating_thanks), Toast.LENGTH_SHORT).show()
+        mRatingMessageEditText.hideKeyboard()
+        Toast.makeText(activity, getString(R.string.rating_thanks) +": "+ message, Toast.LENGTH_SHORT).show()
         dismiss()
+    }
+
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
     }
 }
