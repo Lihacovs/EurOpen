@@ -25,22 +25,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.RatingBar
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import eu.balticit.europen.R
+import kotlinx.coroutines.channels.consumesAll
 import java.util.*
 
 class RateUsDialog : DialogFragment() {
+
+    private var isRatingSecondaryActionShown = false
 
     private lateinit var mRatingMessageView: View
     private lateinit var mPlayStoreRatingView: View
     private lateinit var mRatingBar: RatingBar
     private lateinit var mSubmitButton: Button
     private lateinit var mLaterButton: Button
+    private lateinit var mRatingMessage: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,6 +81,7 @@ class RateUsDialog : DialogFragment() {
         mRatingBar = view.findViewById(R.id.rating_bar_feedback)
         mSubmitButton = view.findViewById(R.id.btn_submit)
         mLaterButton = view.findViewById(R.id.btn_later)
+        mRatingMessage = view.findViewById(R.id.et_message)
         setUp(view)
     }
 
@@ -113,11 +115,40 @@ class RateUsDialog : DialogFragment() {
         )
 
         mSubmitButton.setOnClickListener {
-            Toast.makeText(activity, "Rating: " + mRatingBar.rating, Toast.LENGTH_SHORT).show()
+            onSubmitButtonClick(mRatingBar.rating, mRatingMessage.text.toString())
+            //Toast.makeText(activity, "Rating: " + mRatingBar.rating, Toast.LENGTH_SHORT).show()
         }
 
         view.findViewById<Button>(R.id.btn_later).setOnClickListener {
             dismiss()
         }
+    }
+
+    private fun onSubmitButtonClick(rating: Float, message: String) {
+        if (rating == 0.0F) {
+            Toast.makeText(
+                activity,
+                getString(R.string.rating_not_provided_error),
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        if (!isRatingSecondaryActionShown) {
+            if (rating == 5.0F) {
+                mPlayStoreRatingView.visibility = View.VISIBLE
+                mSubmitButton.visibility = View.GONE
+                mRatingBar.setIsIndicator(true)
+                Toast.makeText(activity, "Rating: " + mRatingBar.rating, Toast.LENGTH_SHORT).show()
+            } else {
+                mRatingMessageView.visibility = View.VISIBLE
+                Toast.makeText(activity, "Rating: " + mRatingBar.rating, Toast.LENGTH_SHORT).show()
+            }
+            isRatingSecondaryActionShown = true
+            return
+        }
+
+        Toast.makeText(activity, getString(R.string.rating_thanks), Toast.LENGTH_SHORT).show()
+        dismiss()
     }
 }

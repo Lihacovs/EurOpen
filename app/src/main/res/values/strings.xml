@@ -111,5 +111,7 @@
     <string name="rating_type_suggestion">Type suggestion here</string>
     <string name="rating_later">Later</string>
     <string name="rating_submit">Submit</string>
+    <string name="rating_not_provided_error">Please provide us stars</string>
+    <string name="rating_thanks">Thank you for your feedback</string>
 
 </resources>
