@@ -30,6 +30,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import eu.balticit.europen.R
 import java.util.*
 
@@ -44,13 +47,11 @@ class RateUsDialog : DialogFragment() {
     private lateinit var mLaterButton: Button
     private lateinit var mRatingMessageEditText: EditText
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.dialog_rate_us, container, false)
+    fun newInstance(): RateUsDialog{
+        val fragment = RateUsDialog()
+        val bundle = Bundle()
+        fragment.arguments = bundle
+        return fragment
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -60,12 +61,12 @@ class RateUsDialog : DialogFragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        val dialog = Dialog(Objects.requireNonNull(activity))
+        val dialog = Dialog(Objects.requireNonNull(context))
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(root)
         if (dialog.window != null) {
-            dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.window.setLayout(
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
@@ -73,6 +74,15 @@ class RateUsDialog : DialogFragment() {
         dialog.setCanceledOnTouchOutside(false)
 
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        return inflater.inflate(R.layout.dialog_rate_us, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -155,7 +165,7 @@ class RateUsDialog : DialogFragment() {
         dismiss()
     }
 
-    fun View.hideKeyboard() {
+    private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
