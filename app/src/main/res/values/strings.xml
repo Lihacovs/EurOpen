@@ -115,4 +115,23 @@
     <string name="rating_not_provided_error">Please provide us stars</string>
     <string name="rating_thanks">Thank you for your feedback</string>
 
+    <!--ui.auth.Login-->
+    <string name="login_empty_email">Please enter your Email</string>
+    <string name="login_invalid_email">Please enter a valid Email</string>
+    <string name="login_empty_password">Please enter your Password</string>
+    <string name="login_email_not_exist">Provided Email is not registered</string>
+    <string name="login_invalid_password">The Password is invalid</string>
+    <string name="login_email_already_used">Email address is already used</string>
+    <string name="login_try_again">Please try again</string>
+    <string name="login_some_error">Some error occurred. Try again</string>
+
+    <!--res.layout.fragment_login-->
+    <string name="activity_login_app_logo">EuropeWelcome</string>
+    <string name="activity_login_email">Email</string>
+    <string name="activity_login_password">Password</string>
+    <string name="activity_login_signin">Sign In</string>
+    <string name="activity_login_google_signin">Sign In with Google</string>
+    <string name="activity_login_facebook_signin">Sign In with Facebook</string>
+    <string name="activity_login_register">Don\'t have an Account? Register</string>
+
 </resources>
