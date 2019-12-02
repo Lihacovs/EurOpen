@@ -61,4 +61,10 @@
         android:name="eu.balticit.europen.ui.about.AboutFragment"
         android:label="@string/menu_about"
         tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="eu.balticit.europen.ui.auth.LoginFragment"
+        android:label="@string/menu_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
