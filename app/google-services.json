@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1016866714326",
+    "firebase_url": "https://europen-3cc5d.firebaseio.com",
+    "project_id": "europen-3cc5d",
+    "storage_bucket": "europen-3cc5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016866714326:android:238ef52f193509dd25cf77",
+        "android_client_info": {
+          "package_name": "eu.balticit.europen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016866714326-i68pn1jql707uknonhenti6rt0gjbsut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8Uh1xzWyvqGlfNeijPlVEg6jZy39hLPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016866714326-i68pn1jql707uknonhenti6rt0gjbsut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
