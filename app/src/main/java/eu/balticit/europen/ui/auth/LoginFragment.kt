@@ -19,13 +19,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.auth.FirebaseAuth
 import eu.balticit.europen.R
 
 class LoginFragment : Fragment() {
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +36,47 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_login, container, false)
+        auth = FirebaseAuth.getInstance()
         return root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val emailEditText: EditText = view.findViewById(R.id.et_login_email)
+        val email = emailEditText.text
+        val passwordEditText: EditText = view.findViewById(R.id.et_login_password)
+        val password = passwordEditText.text
+
+        val serverLoginButton: Button = view.findViewById(R.id.btn_login_server)
+        serverLoginButton.setOnClickListener{
+            when {
+                email.isEmpty() -> {
+                    Toast.makeText(activity, getString(R.string.login_empty_email), Toast.LENGTH_SHORT).show()
+                }
+                password.isEmpty() -> {
+                    Toast.makeText(activity, getString(R.string.login_empty_password), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(activity, "FireBase server login", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        val googleLoginButton: Button = view.findViewById(R.id.btn_login_google)
+        googleLoginButton.setOnClickListener{
+            Toast.makeText(activity, "FireBase Google login", Toast.LENGTH_SHORT).show()
+        }
+
+        val facebookLoginButton: Button = view.findViewById(R.id.btn_login_facebook)
+        facebookLoginButton.setOnClickListener{
+            Toast.makeText(activity, "FireBase Facebook login", Toast.LENGTH_SHORT).show()
+        }
+
+        val registerButton: Button = view.findViewById(R.id.btn_login_register)
+        registerButton.setOnClickListener {
+            Toast.makeText(activity, "Fragment to register", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }
