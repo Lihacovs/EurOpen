@@ -25,6 +25,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import eu.balticit.europen.R
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class LoginFragment : Fragment() {
 
@@ -57,6 +59,9 @@ class LoginFragment : Fragment() {
                 password.isEmpty() -> {
                     Toast.makeText(activity, getString(R.string.login_empty_password), Toast.LENGTH_SHORT).show()
                 }
+                !isEmailValid(email.toString()) -> {
+                    Toast.makeText(activity, getString(R.string.login_invalid_email), Toast.LENGTH_SHORT).show()
+                }
                 else -> {
                     Toast.makeText(activity, "FireBase server login", Toast.LENGTH_SHORT).show()
                 }
@@ -77,6 +82,16 @@ class LoginFragment : Fragment() {
         registerButton.setOnClickListener {
             Toast.makeText(activity, "Fragment to register", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun isEmailValid(email: String?): Boolean {
+        val pattern: Pattern
+        val matcher: Matcher
+        val emailPattern = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+        pattern = Pattern.compile(emailPattern)
+        matcher = pattern.matcher(email)
+        return matcher.matches()
     }
 
 }
