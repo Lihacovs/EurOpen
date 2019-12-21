@@ -19,11 +19,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import eu.balticit.europen.R
 
+/**
+ * Register fragment. Creates user account in Firebase server.
+ */
 class RegisterFragment : Fragment() {
 
     override fun onCreateView(
@@ -38,9 +41,24 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val registerAddPhotoIV: ImageView = view.findViewById(R.id.iv_register_add_photo)
+        registerAddPhotoIV.setOnClickListener {
+            Toast.makeText(activity, "Upload user photo", Toast.LENGTH_SHORT).show()
+        }
+
+        val registerBirthDateET: EditText = view.findViewById(R.id.et_register_birth_date)
+        registerBirthDateET.setOnClickListener {
+            Toast.makeText(activity, "Pick date from calendar", Toast.LENGTH_SHORT).show()
+        }
+
         val registerTermsTextView: TextView = view.findViewById(R.id.tv_register_terms)
         registerTermsTextView.setOnClickListener {
             view.findNavController().navigate(R.id.action_nav_register_to_nav_about)
+        }
+
+        val registerUserButton: Button = view.findViewById(R.id.btn_register_register)
+        registerUserButton.setOnClickListener{
+            Toast.makeText(activity, "Register user in firebase DB", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -52,16 +52,28 @@ class LoginFragment : Fragment() {
         val password = passwordEditText.text
 
         val serverLoginButton: Button = view.findViewById(R.id.btn_login_server)
-        serverLoginButton.setOnClickListener{
+        serverLoginButton.setOnClickListener {
             when {
                 email.isEmpty() -> {
-                    Toast.makeText(activity, getString(R.string.login_empty_email), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        getString(R.string.login_empty_email),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 password.isEmpty() -> {
-                    Toast.makeText(activity, getString(R.string.login_empty_password), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        getString(R.string.login_empty_password),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 !isEmailValid(email.toString()) -> {
-                    Toast.makeText(activity, getString(R.string.login_invalid_email), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        getString(R.string.login_invalid_email),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 else -> {
                     Toast.makeText(activity, "FireBase server login", Toast.LENGTH_SHORT).show()
@@ -70,12 +82,12 @@ class LoginFragment : Fragment() {
         }
 
         val googleLoginButton: Button = view.findViewById(R.id.btn_login_google)
-        googleLoginButton.setOnClickListener{
+        googleLoginButton.setOnClickListener {
             Toast.makeText(activity, "FireBase Google login", Toast.LENGTH_SHORT).show()
         }
 
         val facebookLoginButton: Button = view.findViewById(R.id.btn_login_facebook)
-        facebookLoginButton.setOnClickListener{
+        facebookLoginButton.setOnClickListener {
             Toast.makeText(activity, "FireBase Facebook login", Toast.LENGTH_SHORT).show()
         }
 
