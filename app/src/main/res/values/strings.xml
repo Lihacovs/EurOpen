@@ -134,4 +134,21 @@
     <string name="activity_login_facebook_signin">Sign In with Facebook</string>
     <string name="activity_login_register">Don\'t have an Account? Register</string>
 
+    <!--res.layout.fragment_register-->
+    <string name="fragment_register_register_screen">Register</string>
+    <string name="fragment_register_back_btn">Back</string>
+    <string name="fragment_register_email">Email</string>
+    <string name="fragment_register_password">Password</string>
+    <string name="fragment_register_add_photo">Add Photo</string>
+    <string name="fragment_register_name">Name</string>
+    <string name="fragment_register_surname">Surname</string>
+    <string name="fragment_register_gender">Your gender:</string>
+    <string name="fragment_register_male">Male</string>
+    <string name="fragment_register_female">Female</string>
+    <string name="fragment_register_not_specified">Not specified</string>
+    <string name="fragment_register_date_of_birth">Date of Birth:</string>
+    <string name="fragment_register_d_m_y">Day Month Year</string>
+    <string name="fragment_register_terms">Proceeding register you agree with <b>Terms of Service</b></string>
+    <string name="fragment_register_register">Register</string>
+
 </resources>
