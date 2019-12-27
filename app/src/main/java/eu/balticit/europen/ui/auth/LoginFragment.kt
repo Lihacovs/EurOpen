@@ -91,7 +91,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun isEmailValid(email: String?): Boolean {
+    private fun isEmailValid(email: CharSequence): Boolean {
         val pattern: Pattern
         val matcher: Matcher
         val emailPattern = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"

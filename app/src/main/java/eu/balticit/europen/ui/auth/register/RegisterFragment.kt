@@ -40,14 +40,14 @@ class RegisterFragment : Fragment() {
     private lateinit var mSurnameEt: EditText
     private lateinit var mPhotoIv: ImageView
     private lateinit var mBirthDateEt: EditText
+    private var mGender: String = "Not specified"
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_register, container, false)
-        return root
+        return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,7 +92,15 @@ class RegisterFragment : Fragment() {
             view.findNavController().navigate(R.id.action_nav_register_to_nav_about)
         }
 
-        //TODO: User Gender selection radio button
+        val radioGroup: RadioGroup = view.findViewById(R.id.rg_register_radio_group)
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when(checkedId){
+                R.id.rb_register_male -> mGender = "Male"
+                R.id.rb_register_female -> mGender = "Female"
+                R.id.rb_register_other -> mGender = "Not specified"
+            }
+
+        }
 
         val registerUserButton: Button = view.findViewById(R.id.btn_register_register)
         registerUserButton.setOnClickListener {
@@ -143,7 +151,7 @@ class RegisterFragment : Fragment() {
                     ).show()
                 }
                 else -> {
-                    Toast.makeText(activity, "Register user in firebase DB", Toast.LENGTH_SHORT)
+                    Toast.makeText(activity, "Register user in firebase DB ", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
@@ -151,7 +159,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun isEmailValid(email: String?): Boolean {
+    private fun isEmailValid(email: CharSequence): Boolean {
         val pattern: Pattern
         val matcher: Matcher
         val emailPattern = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
