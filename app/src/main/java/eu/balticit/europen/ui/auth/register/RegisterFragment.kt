@@ -23,6 +23,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import eu.balticit.europen.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,6 +37,8 @@ import java.util.regex.Pattern
  * Register fragment. Creates user account in Firebase server.
  */
 class RegisterFragment : Fragment() {
+
+    private lateinit var auth: FirebaseAuth
 
     private lateinit var mEmailEt: EditText
     private lateinit var mPasswordEt: EditText
@@ -47,7 +53,9 @@ class RegisterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_register, container, false)
+        val root = inflater.inflate(R.layout.fragment_register, container, false)
+        auth = FirebaseAuth.getInstance()
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,7 +102,7 @@ class RegisterFragment : Fragment() {
 
         val radioGroup: RadioGroup = view.findViewById(R.id.rg_register_radio_group)
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when(checkedId){
+            when (checkedId) {
                 R.id.rb_register_male -> mGender = "Male"
                 R.id.rb_register_female -> mGender = "Female"
                 R.id.rb_register_other -> mGender = "Not specified"
@@ -150,10 +158,15 @@ class RegisterFragment : Fragment() {
                         activity, getString(R.string.register_empty_birth_date), Toast.LENGTH_SHORT
                     ).show()
                 }
-                else -> {
-                    Toast.makeText(activity, "Register user in firebase DB ", Toast.LENGTH_SHORT)
-                        .show()
-                }
+                else -> createFirebaseUser(
+                    mEmailEt.text.toString(),
+                    mPasswordEt.text.toString(),
+                    "photoUrl",
+                    mNameEt.text.toString(),
+                    mSurnameEt.text.toString(),
+                    mGender,
+                    mBirthDateEt.toString()
+                    )
             }
 
         }
@@ -167,5 +180,36 @@ class RegisterFragment : Fragment() {
         pattern = Pattern.compile(emailPattern)
         matcher = pattern.matcher(email)
         return matcher.matches()
+    }
+
+    private fun createFirebaseUser(
+        email: String,
+        password: String,
+        photoUrl: String,
+        name: String,
+        surname: String,
+        gender: String,
+        birthDate: String
+    ) {
+        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
+            Toast.makeText(activity, "Firebase User created", Toast.LENGTH_SHORT)
+                .show()
+            activity?.onBackPressed()
+        }.addOnFailureListener { e ->
+            when (e) {
+                is FirebaseAuthUserCollisionException -> Toast.makeText(
+                    activity, getString(R.string.register_email_already_used), Toast.LENGTH_SHORT
+                ).show()
+                is FirebaseAuthWeakPasswordException -> Toast.makeText(
+                    activity, e.reason, Toast.LENGTH_SHORT
+                ).show()
+                is FirebaseAuthInvalidCredentialsException -> Toast.makeText(
+                    activity, e.message, Toast.LENGTH_SHORT
+                ).show()
+                else -> Toast.makeText(
+                    activity, getString(R.string.register_some_error), Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }
