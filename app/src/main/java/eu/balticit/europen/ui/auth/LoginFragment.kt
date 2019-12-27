@@ -56,23 +56,17 @@ class LoginFragment : Fragment() {
             when {
                 email.isEmpty() -> {
                     Toast.makeText(
-                        activity,
-                        getString(R.string.login_empty_email),
-                        Toast.LENGTH_SHORT
+                        activity, getString(R.string.login_empty_email), Toast.LENGTH_SHORT
                     ).show()
                 }
                 password.isEmpty() -> {
                     Toast.makeText(
-                        activity,
-                        getString(R.string.login_empty_password),
-                        Toast.LENGTH_SHORT
+                        activity, getString(R.string.login_empty_password), Toast.LENGTH_SHORT
                     ).show()
                 }
                 !isEmailValid(email.toString()) -> {
                     Toast.makeText(
-                        activity,
-                        getString(R.string.login_invalid_email),
-                        Toast.LENGTH_SHORT
+                        activity, getString(R.string.login_invalid_email), Toast.LENGTH_SHORT
                     ).show()
                 }
                 else -> {

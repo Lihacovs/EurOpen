@@ -15,6 +15,7 @@
 
 package eu.balticit.europen.ui.auth.register
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,11 +24,22 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import eu.balticit.europen.R
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 /**
  * Register fragment. Creates user account in Firebase server.
  */
 class RegisterFragment : Fragment() {
+
+    private lateinit var mEmailEt: EditText
+    private lateinit var mPasswordEt: EditText
+    private lateinit var mNameEt: EditText
+    private lateinit var mSurnameEt: EditText
+    private lateinit var mPhotoIv: ImageView
+    private lateinit var mBirthDateEt: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,14 +53,38 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val registerAddPhotoIV: ImageView = view.findViewById(R.id.iv_register_add_photo)
-        registerAddPhotoIV.setOnClickListener {
+        mEmailEt = view.findViewById(R.id.et_register_email)
+        mPasswordEt = view.findViewById(R.id.et_register_password)
+        mNameEt = view.findViewById(R.id.et_register_name)
+        mSurnameEt = view.findViewById(R.id.et_register_surname)
+        mPhotoIv = view.findViewById(R.id.iv_register_add_photo)
+        mBirthDateEt = view.findViewById(R.id.et_register_birth_date)
+
+
+        mPhotoIv.setOnClickListener {
             Toast.makeText(activity, "Upload user photo", Toast.LENGTH_SHORT).show()
         }
 
-        val registerBirthDateET: EditText = view.findViewById(R.id.et_register_birth_date)
-        registerBirthDateET.setOnClickListener {
-            Toast.makeText(activity, "Pick date from calendar", Toast.LENGTH_SHORT).show()
+        val myCalendar = Calendar.getInstance()
+        val date = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, monthOfYear)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val myFormat = "d MMM yyyy" // mention the format you need
+            val sdf = SimpleDateFormat(myFormat, Locale.US)
+            mBirthDateEt.setText(sdf.format(myCalendar.time))
+        }
+
+        //TODO: Make spinner instead of calendar for birth date picker
+        mBirthDateEt.setOnClickListener {
+            DatePickerDialog(
+                activity,
+                date,
+                myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
 
         val registerTermsTextView: TextView = view.findViewById(R.id.tv_register_terms)
@@ -56,9 +92,72 @@ class RegisterFragment : Fragment() {
             view.findNavController().navigate(R.id.action_nav_register_to_nav_about)
         }
 
+        //TODO: User Gender selection radio button
+
         val registerUserButton: Button = view.findViewById(R.id.btn_register_register)
-        registerUserButton.setOnClickListener{
-            Toast.makeText(activity, "Register user in firebase DB", Toast.LENGTH_SHORT).show()
+        registerUserButton.setOnClickListener {
+            when {
+                mEmailEt.text.toString().isEmpty() -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_empty_email), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                !isEmailValid(mEmailEt.text.toString()) -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_invalid_email), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                mPasswordEt.text.toString().isEmpty() -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_empty_password), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                mPasswordEt.text.trim().length < 6 -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_short_password), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                mNameEt.text.toString().isEmpty() -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_empty_name), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                mNameEt.text.trim().length < 2 -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_short_name), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                mSurnameEt.text.toString().isEmpty() -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_empty_surname), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                mSurnameEt.text.toString().length < 2 -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_short_surname), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                mBirthDateEt.text.toString().isEmpty() -> {
+                    Toast.makeText(
+                        activity, getString(R.string.register_empty_birth_date), Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else -> {
+                    Toast.makeText(activity, "Register user in firebase DB", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
         }
+    }
+
+    private fun isEmailValid(email: String?): Boolean {
+        val pattern: Pattern
+        val matcher: Matcher
+        val emailPattern = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+        pattern = Pattern.compile(emailPattern)
+        matcher = pattern.matcher(email)
+        return matcher.matches()
     }
 }
